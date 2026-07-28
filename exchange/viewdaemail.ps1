@@ -1,3 +1,4 @@
+# Continuously display recent Exchange message-tracking activity.
 while ($true) {
     Get-MessageTrackingLog -Start (Get-Date).AddMinutes(-10) -ResultSize 50 |
         Sort-Object Timestamp |

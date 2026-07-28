@@ -1,3 +1,4 @@
+# Change the Windows Winlogon shell to a specified executable.
 param(
     [string]$ShellPath = "C:\Windows\System32\cmd.exe"
 )

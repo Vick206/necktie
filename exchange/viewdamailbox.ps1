@@ -1,3 +1,4 @@
+# Show the Exchange mailboxes that were accessed most recently.
 <#
 .SYNOPSIS
     Display the 20 most recently accessed mailboxes and how long ago
