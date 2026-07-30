@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 # Check if domain was provided
 if [[ $# -eq 0 ]]; then
@@ -15,15 +15,15 @@ echo "==================================="
 # Function to query DNS records
 query_dns() {
     local record_type=$1
-    echo "\n[${record_type} Records]"
+    printf '\n[%s Records]\n' "$record_type"
     dig +short $domain $record_type | while read -r line; do
         echo "  $line"
     done
 }
 
 # Query each record type
-for type in $record_types; do
-    query_dns $type
+for type in "${record_types[@]}"; do
+    query_dns "$type"
 done
 
-echo "\nDNS record query completed."
+printf '\nDNS record query completed.\n'

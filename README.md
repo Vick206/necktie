@@ -6,15 +6,36 @@ One day I will be cool, and use this stuff at a new job to seem like a greybeard
 
 Run `powershell.exe -ExecutionPolicy Bypass -File .\Necktie.ps1` from the repo
 root. The dependency-free TUI recursively discovers `.ps1`, `.psm1`, `.cmd`,
-`.bat`, and `.exe` tools, groups them by directory, and refreshes its list after
-each key press (or when you press `R`).
+`.bat`, and `.exe` tools, groups them by directory, and refreshes its list when
+you press `R`.
 
-The opening screen shows folder categories such as `+--> [Windows]`. Press
-Enter or Right Arrow to browse a category, and Backspace or Left Arrow to move
-back up the folder tree.
+The opening screen shows folder categories such as `+--> [Windows]` and labels
+the first nine rows with number shortcuts. Press Enter or Right Arrow to browse
+a category, and Backspace or Left Arrow to move back up the folder tree.
+
+Useful keys:
+
+- `1`..`9`: jump directly to a visible row
+- `F`: set a name/description filter
+- `C`: clear the active filter
+- `H`: jump back to the repo root
+- `R`: refresh the discovered tool list
 
 Use `powershell.exe -File .\Necktie.ps1 -List` to print the discovered tools
 without opening the interactive menu.
+
+## Linux launcher
+
+Run `bash ./bash/Necktie.sh` from the repo root to open a Linux-friendly TUI
+for shell tools. It supports numbered selection, folder navigation, filtering,
+and refresh.
+
+```bash
+bash ./bash/Necktie.sh
+bash ./bash/Necktie.sh --list
+```
+
+The shell scripts in this repo target Bash (`#!/usr/bin/env bash`).
 
 ### Tool descriptions
 
@@ -36,6 +57,32 @@ for the health TUI. Inspection reports pending reboots, disk state, Windows
 Update errors, and component-store health. DISM, SFC, and full repair are
 separate elevated actions with confirmation and timestamped reports under
 `%ProgramData%\Necktie\WindowsHealth`.
+
+## Device network report
+
+Run `Windows\NetworkReport.ps1` to generate a timestamped network snapshot with
+adapter state, IP configuration, DNS servers, connection profiles, routes, and
+raw command output files.
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File .\Windows\NetworkReport.ps1
+powershell.exe -ExecutionPolicy Bypass -File .\Windows\NetworkReport.ps1 -IncludeNetstat
+```
+
+Reports are written under `%ProgramData%\Necktie\NetworkReports`.
+
+## Wireless pretty report
+
+Run `Windows\WirelessPrettyReport.ps1` to refresh `netsh wlan show wlanreport`
+and build a styled HTML summary document that includes interface, profile, and
+driver details plus a copy of the raw `wlan-report-latest.html`.
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File .\Windows\WirelessPrettyReport.ps1
+powershell.exe -ExecutionPolicy Bypass -File .\Windows\WirelessPrettyReport.ps1 -Open
+```
+
+Reports are written under `%ProgramData%\Necktie\WirelessReports`.
 
 ## Microsoft identity repair
 
@@ -79,5 +126,3 @@ is revalidated and its registry data is backed up under
 powershell.exe -ExecutionPolicy Bypass -File .\Windows\Remove-ApplicationToolkit.ps1 -Search WordPerfect
 powershell.exe -ExecutionPolicy Bypass -File .\Windows\Remove-ApplicationToolkit.ps1 -Search WordPerfect -List
 ```
-
-
